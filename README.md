@@ -1,5 +1,7 @@
 # COFGap: DFT-free band-gap prediction of covalent organic frameworks
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23331410.svg)](https://doi.org/10.5281/zenodo.23331410)
+
 Code, derived data, and results for:
 
 > J. Hu, P. Sarker, J. Hu, T. Wei. *DFT-free band gap prediction of COFs using foundation models and topological and fragment features.* (submitted)
