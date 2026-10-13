@@ -1,0 +1,563 @@
+
+                                 *****************
+                                 * O   R   C   A *
+                                 *****************
+
+                                            #,                                       
+                                            ###                                      
+                                            ####                                     
+                                            #####                                    
+                                            ######                                   
+                                           ########,                                 
+                                     ,,################,,,,,                         
+                               ,,#################################,,                 
+                          ,,##########################################,,             
+                       ,#########################################, ''#####,          
+                    ,#############################################,,   '####,        
+                  ,##################################################,,,,####,       
+                ,###########''''           ''''###############################       
+              ,#####''   ,,,,##########,,,,          '''####'''          '####       
+            ,##' ,,,,###########################,,,                        '##       
+           ' ,,###''''                  '''############,,,                           
+         ,,##''                                '''############,,,,        ,,,,,,###''
+      ,#''                                            '''#######################'''  
+     '                                                          ''''####''''         
+             ,#######,   #######,   ,#######,      ##                                
+            ,#'     '#,  ##    ##  ,#'     '#,    #''#        ,####,    ,#,          
+            ##       ##  ##   ,#'  ##            #'  '#       #'       ,# #          
+            ##       ##  #######   ##           ,######,      #####,      #          
+            '#,     ,#'  ##    ##  '#,     ,#' ,#      #,     #,   #      #          
+             '#######'   ##     ##  '#######'  #'      '#     '####' #    #          
+
+
+
+                #########################################################
+                #                        -***-                          #
+                #          Department of theory and spectroscopy        #
+                #                                                       #
+                #                      Frank Neese                      #
+                #                                                       #
+                #     Directorship, Architecture, Infrastructure        #
+                #                    SHARK, DRIVERS                     #
+                #        Core code/Algorithms in most modules           #
+                #                                                       #
+                #        Max Planck Institute fuer Kohlenforschung      #
+                #                Kaiser Wilhelm Platz 1                 #
+                #                 D-45470 Muelheim/Ruhr                 #
+                #                      Germany                          #
+                #                                                       #
+                #                  All rights reserved                  #
+                #                        -***-                          #
+                #########################################################
+
+
+                         Program Version 6.1.1  -  RELEASE   -
+                                (GIT: $487d211cc3$)
+                          ($2025-11-21 10:33:24 +0100$)
+
+
+ With contributions from (in alphabetic order):
+[Max-Planck-Institut fuer Kohlenforschung]                               
+  Daniel Aravena         : Magnetic Suceptibility                        
+  Michael Atanasov       : Ab Initio Ligand Field Theory (pilot matlab implementation)
+  Alexander A. Auer      : GIAO ZORA, VPT2 properties, NMR spectrum      
+  Ute Becker             : All parallelization in ORCA, NUMFREQ, NUMCALC 
+  Giovanni Bistoni       : ED, misc. LED, open-shell LED, HFLD           
+  Dmytro Bykov           : pre 5.0 version of the SCF Hessian            
+  Marcos Casanova-Páez   : Triplet and SCS-CIS(D). UHF-(DLPNO)-IP/EA/STEOM-CCSD. UHF-CVS-IP/STEOM-CCSD   
+  Vijay G. Chilkuri      : MRCI spin determinant printing, contributions to CSF-ICE 
+  Pauline Colinet        : FMM embedding                                 
+  Dipayan Datta          : RHF DLPNO-CCSD density                        
+  Achintya Kumar Dutta   : EOM-CC, STEOM-CC                              
+  Nicolas Foglia         : Exact transition moments, OPA infrastructure, MCD improvements    
+  Dmitry Ganyushin       : Spin-Orbit,Spin-Spin,Magnetic field MRCI      
+  Miquel Garcia-Rates    : C-PCM and meta-GGA Hessian, CCSD/C-PCM, Gaussian charge scheme 
+  Tiago L. C. Gouveia    : GS-ROHF, GS-ROCIS                             
+  Yang Guo               : DLPNO-NEVPT2, F12-NEVPT2, CIM, IAO-localization        
+  Andreas Hansen         : Spin unrestricted coupled pair/coupled cluster methods 
+  Ingolf Harden          : AUTO-CI MPn and infrastructure                
+  Benjamin Helmich-Paris : MC-RPA, TRAH-(SCF,CASSCF), AVAS, COSX integrals, SCF dyn. polar., MC-PDFT, srDFT 
+  Lee Huntington         : MR-EOM, pCC                                   
+  Robert Izsak           : Overlap fitted RIJCOSX, COSX-SCS-MP3, EOM     
+  Riya Kayal             : Wick's Theorem for AUTO-CI, AUTO-CI UHF-CCSDT 
+  Emily Kempfer          : AUTO-CI RHF CISDT and CCSDT, approximate NEVPT4
+  Christian Kollmar      : KDIIS, OOCD, Brueckner-CCSD(T), CCSD density, CASPT2, CASPT2-K, improved NEVPT2 
+  Axel Koslowski         : Symmetry handling                             
+  Simone Kossmann        : meta-GGA functionals, TD-DFT gradient, OOMP2, (MP2 Hessian; deprecated post 5.0) 
+  Lucas Lang             : DCDCAS, Hyperfine gauge corrections, ICE-SOC+SSC
+  Marvin Lechner         : AUTO-CI (C++ implementation), FIC-MRCC        
+  Spencer Leger          : CASSCF response                               
+  Dagmar Lenk            : GEPOL surface, SMD, ORCA-2-JSON               
+  Dimitrios Liakos       : Extrapolation schemes; Compound Job, Property file
+  Dimitrios Manganas     : Further ROCIS development; embedding schemes. LFT, Crystal Embedding 
+  Dimitrios Pantazis     : SARC Basis sets                               
+  Anastasios Papadopoulos: AUTO-CI, single reference methods and gradients 
+  Taras Petrenko         : pre 6.0 DFT Hessian and TD-DFT gradient,  ECA, NRVS 
+  Petra Pikulova         : Analytic Raman intensities                    
+  Peter Pinski           : DLPNO-MP2, DLPNO-MP2 Gradient                 
+  Shashank Vittal Rao    : ES-AILFT, MagRelax                            
+  Christoph Reimann      : Effective Core Potentials                     
+  Marius Retegan         : Local ZFS, SOC                                
+  Christoph Riplinger    : Optimizer, TS searches, QM/MM, DLPNO-CCSD(T), (RO)-DLPNO pert. Triples 
+  Michael Roemelt        : Original ROCIS implementation, recursive CI coupling coefficients
+  Masaaki Saitow         : Open-shell DLPNO-CCSD energy and density      
+  Barbara Sandhoefer     : DKH picture change effects                    
+  Yorick L. A. Schmerwitz: GMF and freeze-and-release deltaSCF, NEB S-IDPP initial path                    
+  Kantharuban Sivalingam : CASSCF convergence/infrastructure, NEVPT2, NEVPT3, NEVPT4(SD), FIC-MRCI and CEPA variants
+  Bernardo de Souza      : ESD, SOC TD-DFT                               
+  Georgi L. Stoychev     : AutoAux, RI-MP2 NMR, DLPNO-MP2 response, X2C  
+  Van Anh Tran           : RI-MP2 g-tensors                              
+  Willem Van den Heuvel  : Paramagnetic NMR                              
+  Zikuan Wang            : NOTCH, Electric field optimization            
+  Frank Wennmohs         : Technical directorship and infrastructure     
+  Hang Xu                : AUTO-CI-Response properties                   
+                                                                         
+[FACCTs GmbH]                                                            
+  Markus Bursch, Nicolas Foglia, Miquel Garcia-Rates, Ingolf Harden, Hagen Neugebauer, Anastasios Papadopoulos, 
+  Christoph Riplinger, Bernardo de Souza, Georgi L. Stoychev                                                    
+                                                                 
+  APM, various basis sets, CI-OPT, improved COSX, DLPNO-Multilevel,           
+  DOCKER, DRACO, updates on ESD, Fragmentator, GOAT, IRC, LR-CPCM, L-BFGS, MBIS, meta-GGA TD-DFT gradient, ML-optimized integration grids, 
+  MM, NACMEs, nearIR, NEB, NEB-TS, NL-DFT gradient (VV10), 2- and 3-layer-ONIOM, interface openCOSMO-RS, QMMM,   
+  Crystal-QMMM, RESP, rigid body optimization, SF, symmetry and pop. for TD-DFT, various functionals, SOLVATOR                                   
+                                                                         
+[Other institutions]                                                     
+  V. Asgeirsson          : NEB                                           
+  Christoph Bannwarth    : sTDA-DFT, sTD-DFT, PBEh-3c, B97-3c, D3        
+  Giovanni Bistoni       : ETS/NOCV, ADLD/ADEX, COVALED                  
+  Martin Brehm           : Molecular dynamics                            
+  Ronald Cardenas        : ETS/NOCV                                      
+  Martina Colucci        : COVALED                                       
+  Sebastian Ehlert       : rSCAN, r2SCAN, r2SCAN-3c, D4, dhf basis sets  
+  Marvin Friede          : D4 for Fr, Ra, Ac-Lr                          
+  Lars Goerigk           : TD-DFT with DH, B97 family of functionals     
+  Stefan Grimme          : VdW corrections, initial TS optimization, DFT functionals, gCP, sTDA/sTD-DF 
+  Waldemar Hujo          : DFT-NL                                        
+  H. Jonsson             : NEB                                           
+  Holger Kruse           : gCP                                           
+  Marcel Mueller         : wB97X-3c, vDZP basis set                      
+  Hagen Neugebauer       : wr2SCAN, Native XTB                           
+  Gianluca Regni         : ADLD/ADEX                                     
+  Tobias Risthaus        : pre 6.0 range-separated hybrid DFT and stability analysis
+  Lukas Wittmann         : regularized MP2, r2SCAN double-hybrids, wr2SCAN        
+                                                                         
+We gratefully acknowledge several colleagues who have allowed us to      
+interface, adapt or use parts of their codes:                            
+  Ed Valeev, F. Pavosevic, A. Kumar             : LibInt (2-el integral package), F12 methods 
+  Garnet Chan, S. Sharma, J. Yang, R. Olivares  : DMRG                   
+  Ulf Ekstrom                                   : XCFun DFT Library      
+  Mihaly Kallay                                 : mrcc  (arbitrary order and MRCC methods)
+  Frank Weinhold                                : gennbo (NPA and NBO analysis)           
+  Simon Mueller                                 : openCOSMO-RS                            
+  Christopher J. Cramer and Donald G. Truhlar   : smd solvation model                     
+  S Lehtola, MJT Oliveira, MAL Marques          : LibXC Library                           
+  Liviu Ungur et al                             : ANISO software                          
+
+
+ Your calculation uses the libint2 library for the computation of 2-el integrals
+ For citations please refer to: http://libint.valeyev.net
+
+ Your ORCA version has been built with support for libXC version: 7.0.0
+ For citations please refer to: https://libxc.gitlab.io
+
+ This ORCA versions uses:
+   CBLAS   interface :  Fast vector & matrix operations
+   LAPACKE interface :  Fast linear algebra routines
+   SCALAPACK package :  Parallel linear algebra routines
+   Shared memory     :  Shared parallel matrices
+
+
+  ***********************************
+  * Starting time: Thu Jul 23 20:30:25 2026
+  * Host name:     M1-499.local
+  * Process ID:    23791
+  * Working dir.:  ~/Downloads/project/2026-COF-jeffreyHu/bandgap/DFT_cof_bandgap/fragments/464
+  ***********************************
+
+NOTE: MaxCore=3000 MB was set to SCF,MP2,MDCI,CIPSI,MRCI,RASCI and CIS
+      => If you want to overwrite this, your respective input block should be placed after the MaxCore statement
+Your calculation utilizes the atom-pairwise dispersion correction
+with the Becke-Johnson damping scheme (D3BJ)
+
+
+================================================================================
+
+----- Orbital basis set information -----
+Your calculation utilizes the basis: def2-TZVP
+   F. Weigend and R. Ahlrichs, Phys. Chem. Chem. Phys. 7, 3297 (2005).
+
+----- AuxJ basis set information -----
+Your calculation utilizes the auxiliary basis: def2/J
+   H-Rn: F. Weigend, Phys. Chem. Chem. Phys. 8, 1057 (2006).
+   Fr-Lr: K. Eichkorn, F. Weigend, O. Treutler, R. Ahlrichs; Theor. Chem. Acc. 97, 119 (1997).
+
+================================================================================
+                                        WARNINGS
+                       Please study these warnings very carefully!
+================================================================================
+
+
+================================================================================
+                                       INPUT FILE
+================================================================================
+NAME = nodelinker.inp
+|  1> ! PBE0 D3BJ def2-TZVP def2/J RIJCOSX TightSCF
+|  2> %pal nprocs 8 end
+|  3> %maxcore 3000
+|  4> # 464 nodelinker (43 atoms)
+|  5> * xyz 0 1
+|  6> H     22.41939199    10.42011139     1.19081359
+|  7> H     18.54976631    12.00064153     0.78024745
+|  8> H     16.34008962    11.41321709     0.73262865
+|  9> H     14.07698548    10.77495540     0.93550673
+| 10> H     21.61018766    14.99495563     2.18520821
+| 11> H      9.68315565    10.06425063     0.78024745
+| 12> H     11.29672142     8.44432162     0.73262865
+| 13> H     12.98102285     6.80354934     0.93550673
+| 14> H     15.79342616     3.35373347     0.78024745
+| 15> H     16.38954295     5.56108692     0.73262865
+| 16> H     16.96834271     7.84012089     0.93550673
+| 17> C     20.99337848    11.81889836     1.67088393
+| 18> C     22.25385291    11.42262199     1.40430798
+| 19> C     23.28436303    12.29651433     1.40241834
+| 20> C     19.96360213    10.83392662     1.65927127
+| 21> C     16.61789002    10.43078721     0.93904550
+| 22> C     15.63155594     9.42192196     0.94340884
+| 23> C     15.96806402     8.11921740     0.94096949
+| 24> C     23.03634792    13.59591448     1.70750849
+| 25> C     21.77587349    13.99219085     1.97315681
+| 26> C     20.74639065    13.11753594     1.97927236
+| 27> C      9.98664396    11.87202329     1.65927127
+| 28> C     12.00862751     9.17612385     0.93904550
+| 29> C     13.37549896     8.82636356     0.94340884
+| 30> C     14.33542017     9.76914039     0.94096949
+| 31> C     14.07610496     2.71267573     1.65927127
+| 32> C     15.39983058     5.81171456     0.93904550
+| 33> C     15.01929615     7.17034010     0.94340884
+| 34> C     13.72286687     7.53026784     0.94096949
+| 35> N     18.75683985    11.10717684     1.20094890
+| 36> N     17.80220180    10.16134978     1.21214928
+| 37> N     10.35338347    10.69031138     1.20094890
+| 38> N     11.64981275    10.33648411     1.21214928
+| 39> N     14.91612774     3.62113741     1.20094890
+| 40> N     14.57433650     4.92079174     1.21214928
+| 41> O     20.21132373     9.74855130     2.04259230
+| 42> O     10.80274576    12.62924414     2.04259230
+| 43> O     13.01228156     3.04083018     2.04259230
+| 44> H     24.30231068    11.99783639     1.15207042
+| 45> H     23.82335049    14.35001034     1.71565635
+| 46> H     19.73023874    13.41321718     2.24024725
+| 47> H      8.94035196    12.17746420     1.66815368
+| 48> H     14.33473137     1.65383982     1.66815368
+| 49> *
+| 50> 
+| 51>                          ****END OF INPUT****
+================================================================================
+
+                       ****************************
+                       * Single Point Calculation *
+                       ****************************
+
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  H     22.419392   10.420111    1.190814
+  H     18.549766   12.000642    0.780247
+  H     16.340090   11.413217    0.732629
+  H     14.076985   10.774955    0.935507
+  H     21.610188   14.994956    2.185208
+  H      9.683156   10.064251    0.780247
+  H     11.296721    8.444322    0.732629
+  H     12.981023    6.803549    0.935507
+  H     15.793426    3.353733    0.780247
+  H     16.389543    5.561087    0.732629
+  H     16.968343    7.840121    0.935507
+  C     20.993378   11.818898    1.670884
+  C     22.253853   11.422622    1.404308
+  C     23.284363   12.296514    1.402418
+  C     19.963602   10.833927    1.659271
+  C     16.617890   10.430787    0.939045
+  C     15.631556    9.421922    0.943409
+  C     15.968064    8.119217    0.940969
+  C     23.036348   13.595914    1.707508
+  C     21.775873   13.992191    1.973157
+  C     20.746391   13.117536    1.979272
+  C      9.986644   11.872023    1.659271
+  C     12.008628    9.176124    0.939045
+  C     13.375499    8.826364    0.943409
+  C     14.335420    9.769140    0.940969
+  C     14.076105    2.712676    1.659271
+  C     15.399831    5.811715    0.939045
+  C     15.019296    7.170340    0.943409
+  C     13.722867    7.530268    0.940969
+  N     18.756840   11.107177    1.200949
+  N     17.802202   10.161350    1.212149
+  N     10.353383   10.690311    1.200949
+  N     11.649813   10.336484    1.212149
+  N     14.916128    3.621137    1.200949
+  N     14.574336    4.920792    1.212149
+  O     20.211324    9.748551    2.042592
+  O     10.802746   12.629244    2.042592
+  O     13.012282    3.040830    2.042592
+  H     24.302311   11.997836    1.152070
+  H     23.823350   14.350010    1.715656
+  H     19.730239   13.413217    2.240247
+  H      8.940352   12.177464    1.668154
+  H     14.334731    1.653840    1.668154
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 H     1.0000    0     1.008   42.366511   19.691157    2.250312
+   1 H     1.0000    0     1.008   35.053978   22.677926    1.474454
+   2 H     1.0000    0     1.008   30.878294   21.567855    1.384468
+   3 H     1.0000    0     1.008   26.601647   20.361715    1.767852
+   4 H     1.0000    0     1.008   40.837336   28.336360    4.129445
+   5 H     1.0000    0     1.008   18.298512   19.018677    1.474454
+   6 H     1.0000    0     1.008   21.347710   15.957455    1.384468
+   7 H     1.0000    0     1.008   24.530578   12.856845    1.767852
+   8 H     1.0000    0     1.008   29.845250    6.337638    1.474454
+   9 H     1.0000    0     1.008   30.971748   10.508931    1.384468
+  10 H     1.0000    0     1.008   32.065521   14.815681    1.767852
+  11 C     6.0000    0    12.011   39.671736   22.334481    3.157513
+  12 C     6.0000    0    12.011   42.053687   21.585627    2.653757
+  13 C     6.0000    0    12.011   44.001069   23.237044    2.650187
+  14 C     6.0000    0    12.011   37.725741   20.473154    3.135568
+  15 C     6.0000    0    12.011   31.403261   19.711331    1.774539
+  16 C     6.0000    0    12.011   29.539360   17.804852    1.782784
+  17 C     6.0000    0    12.011   30.175268   15.343097    1.778175
+  18 C     6.0000    0    12.011   43.532389   25.692555    3.226723
+  19 C     6.0000    0    12.011   41.150437   26.441409    3.728726
+  20 C     6.0000    0    12.011   39.204997   24.788550    3.740283
+  21 C     6.0000    0    12.011   18.872022   22.434873    3.135568
+  22 C     6.0000    0    12.011   22.693017   17.340361    1.774539
+  23 C     6.0000    0    12.011   25.276030   16.679410    1.782784
+  24 C     6.0000    0    12.011   27.090018   18.461000    1.778175
+  25 C     6.0000    0    12.011   26.599983    5.126214    3.135568
+  26 C     6.0000    0    12.011   29.101462   10.982549    1.774539
+  27 C     6.0000    0    12.011   28.382356   13.549979    1.782784
+  28 C     6.0000    0    12.011   25.932460   14.230144    1.778175
+  29 N     7.0000    0    14.007   35.445290   20.989522    2.269465
+  30 N     7.0000    0    14.007   33.641286   19.202168    2.290630
+  31 N     7.0000    0    14.007   19.565059   20.201761    2.269465
+  32 N     7.0000    0    14.007   22.014956   19.533124    2.290630
+  33 N     7.0000    0    14.007   28.187396    6.842958    2.269465
+  34 N     7.0000    0    14.007   27.541505    9.298949    2.290630
+  35 O     8.0000    0    15.999   38.193867   18.422092    3.859940
+  36 O     8.0000    0    15.999   20.414231   23.865813    3.859940
+  37 O     8.0000    0    15.999   24.589649    5.746336    3.859940
+  38 H     1.0000    0     1.008   45.924712   22.672625    2.177098
+  39 H     1.0000    0     1.008   45.019608   27.117590    3.242121
+  40 H     1.0000    0     1.008   37.284748   25.347307    4.233454
+  41 H     1.0000    0     1.008   16.894817   23.012072    3.152354
+  42 H     1.0000    0     1.008   27.088716    3.125304    3.152354
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ H      0   0   0     0.000000000000     0.00000000     0.00000000
+ H      1   0   0     4.200076544788     0.00000000     0.00000000
+ H      2   1   0     2.286920658255   142.70999385     0.00000000
+ H      3   2   1     2.360122422408   173.81526451    74.29336201
+ H      2   1   3     4.506219092114    66.03703010   157.17227366
+ H      4   3   2     4.453644270609   170.46109891   144.46729852
+ H      6   4   3     2.286926330617    54.38591681   130.49509688
+ H      7   6   4     2.360119593847   173.81525362    78.68147491
+ H      8   7   6     4.453644278457   170.46108134   144.46775937
+ H      9   8   7     2.286926328210    54.38591690   130.49515648
+ H     10   9   8     2.360119597379   173.81525361    78.68147426
+ C      1   2   3     2.054406739059    29.20394452   226.48741885
+ C      1   2   3     1.038272866197    60.65015728   202.41357907
+ C     13   1   2     1.351163387630   120.17252275   200.57075520
+ C     12   1   2     1.425041583074    91.66638469    38.61341908
+ C      3   2   1     1.041609066455    88.87966484     3.70823741
+ C     16   3   2     1.410915677411   119.24764208   185.30133095
+ C     11  10   9     1.038499957299    91.36106087   278.21776452
+ C     14  13   1     1.357583236577   118.64642845   181.07499080
+ C      5   2   1     1.038246018299    53.33938733   359.45349757
+ C     20   5   2     1.350886201496   120.18553123   338.73098779
+ C      6   4  17     2.032936305121    72.28646515   155.07848444
+ C      7   6   4     1.041610628198    88.87931764     8.09684632
+ C     23   7   6     1.410917736802   119.24725156   185.30129037
+ C      4   3  16     1.038499959116    91.36104076   348.79306661
+ C      9   8  24     2.032936301538    72.28646501   155.07848434
+ C     10   9   8     1.041610630335    88.87931737     8.09684630
+ C     18  11  10     1.341839987490   119.40672573     4.87525274
+ C      8   7  23     1.038499961482    91.36106115   348.79305746
+ N      2   1  13     1.009033355879    55.73374587   223.09861664
+ N     16   3   2     1.244900235192   120.08826578     7.14530973
+ N      6   4  25     1.009032756369    39.74897037   142.25436423
+ N     23   7   6     1.244897441411   120.08860430     7.14538472
+ N      9   8  29     1.009032752141    39.74897047   142.25436408
+ N     27  10   9     1.244897434314   120.08860471     7.14538483
+ O     15  12   1     1.177429653275   118.84626274    35.63106048
+ O     22   6   4     1.177429647868   144.69874355   356.54238387
+ O     26   9   8     1.177429650333   144.69874441   356.54238440
+ H     14  13   1     1.090000005060   122.36855604     1.91869422
+ H     19  14  13     1.089999999485   122.13767825   180.47420553
+ H     21  20   5     1.089999996833   122.40466387   357.51964187
+ H     22   6   4     1.089999998153    96.28121485   171.03200105
+ H     26   9   8     1.090000000671    96.28121493   171.03200092
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ H      0   0   0     0.000000000000     0.00000000     0.00000000
+ H      1   0   0     7.936994411156     0.00000000     0.00000000
+ H      2   1   0     4.321653734108   142.70999385     0.00000000
+ H      3   2   1     4.459985020877   173.81526451    74.29336201
+ H      2   1   3     8.515519983543    66.03703010   157.17227366
+ H      4   3   2     8.416167969358   170.46109891   144.46729852
+ H      6   4   3     4.321664453319    54.38591681   130.49509688
+ H      7   6   4     4.459979675672   173.81525362    78.68147491
+ H      8   7   6     8.416167984188   170.46108134   144.46775937
+ H      9   8   7     4.321664448771    54.38591690   130.49515648
+ H     10   9   8     4.459979682348   173.81525361    78.68147426
+ C      1   2   3     3.882266104504    29.20394452   226.48741885
+ C      1   2   3     1.962051369394    60.65015728   202.41357907
+ C     13   1   2     2.553328764802   120.17252275   200.57075520
+ C     12   1   2     2.692938321460    91.66638469    38.61341908
+ C      3   2   1     1.968355874209    88.87966484     3.70823741
+ C     16   3   2     2.666244228362   119.24764208   185.30133095
+ C     11  10   9     1.962480509383    91.36106087   278.21776452
+ C     14  13   1     2.565460521133   118.64642845   181.07499080
+ C      5   2   1     1.962000634219    53.33938733   359.45349757
+ C     20   5   2     2.552804958921   120.18553123   338.73098779
+ C      6   4  17     3.841692864384    72.28646515   155.07848444
+ C      7   6   4     1.968358825477    88.87931764     8.09684632
+ C     23   7   6     2.666248120047   119.24725156   185.30129037
+ C      4   3  16     1.962480512817    91.36104076   348.79306661
+ C      9   8  24     3.841692857613    72.28646501   155.07848434
+ C     10   9   8     1.968358829514    88.87931737     8.09684630
+ C     18  11  10     2.535710091901   119.40672573     4.87525274
+ C      8   7  23     1.962480517289    91.36106115   348.79305746
+ N      2   1  13     1.906796702603    55.73374587   223.09861664
+ N     16   3   2     2.352520508568   120.08826578     7.14530973
+ N      6   4  25     1.906795569692    39.74897037   142.25436423
+ N     23   7   6     2.352515229086   120.08860430     7.14538472
+ N      9   8  29     1.906795561704    39.74897047   142.25436408
+ N     27  10   9     2.352515215675   120.08860471     7.14538483
+ O     15  12   1     2.225019586648   118.84626274    35.63106048
+ O     22   6   4     2.225019576430   144.69874355   356.54238387
+ O     26   9   8     2.225019581087   144.69874441   356.54238440
+ H     14  13   1     2.059801495537   122.36855604     1.91869422
+ H     19  14  13     2.059801485002   122.13767825   180.47420553
+ H     21  20   5     2.059801479989   122.40466387   357.51964187
+ H     22   6   4     2.059801482483    96.28121485   171.03200105
+ H     26   9   8     2.059801487242    96.28121493   171.03200092
+
+---------------------
+BASIS SET INFORMATION
+---------------------
+There are 4 groups of distinct atoms
+
+ Group   1 Type H   : 5s1p contracted to 3s1p pattern {311/1}
+ Group   2 Type C   : 11s6p2d1f contracted to 5s3p2d1f pattern {62111/411/11/1}
+ Group   3 Type N   : 11s6p2d1f contracted to 5s3p2d1f pattern {62111/411/11/1}
+ Group   4 Type O   : 11s6p2d1f contracted to 5s3p2d1f pattern {62111/411/11/1}
+
+Atom   0H    basis set group =>   1
+Atom   1H    basis set group =>   1
+Atom   2H    basis set group =>   1
+Atom   3H    basis set group =>   1
+Atom   4H    basis set group =>   1
+Atom   5H    basis set group =>   1
+Atom   6H    basis set group =>   1
+Atom   7H    basis set group =>   1
+Atom   8H    basis set group =>   1
+Atom   9H    basis set group =>   1
+Atom  10H    basis set group =>   1
+Atom  11C    basis set group =>   2
+Atom  12C    basis set group =>   2
+Atom  13C    basis set group =>   2
+Atom  14C    basis set group =>   2
+Atom  15C    basis set group =>   2
+Atom  16C    basis set group =>   2
+Atom  17C    basis set group =>   2
+Atom  18C    basis set group =>   2
+Atom  19C    basis set group =>   2
+Atom  20C    basis set group =>   2
+Atom  21C    basis set group =>   2
+Atom  22C    basis set group =>   2
+Atom  23C    basis set group =>   2
+Atom  24C    basis set group =>   2
+Atom  25C    basis set group =>   2
+Atom  26C    basis set group =>   2
+Atom  27C    basis set group =>   2
+Atom  28C    basis set group =>   2
+Atom  29N    basis set group =>   3
+Atom  30N    basis set group =>   3
+Atom  31N    basis set group =>   3
+Atom  32N    basis set group =>   3
+Atom  33N    basis set group =>   3
+Atom  34N    basis set group =>   3
+Atom  35O    basis set group =>   4
+Atom  36O    basis set group =>   4
+Atom  37O    basis set group =>   4
+Atom  38H    basis set group =>   1
+Atom  39H    basis set group =>   1
+Atom  40H    basis set group =>   1
+Atom  41H    basis set group =>   1
+Atom  42H    basis set group =>   1
+---------------------------------
+AUXILIARY/J BASIS SET INFORMATION
+---------------------------------
+There are 4 groups of distinct atoms
+
+ Group   1 Type H   : 5s2p1d contracted to 3s1p1d pattern {311/2/1}
+ Group   2 Type C   : 12s5p4d2f1g contracted to 6s4p3d1f1g pattern {711111/2111/211/2/1}
+ Group   3 Type N   : 12s5p4d2f1g contracted to 6s4p3d1f1g pattern {711111/2111/211/2/1}
+ Group   4 Type O   : 12s5p4d2f1g contracted to 6s4p3d1f1g pattern {711111/2111/211/2/1}
+
+Atom   0H    basis set group =>   1
+Atom   1H    basis set group =>   1
+Atom   2H    basis set group =>   1
+Atom   3H    basis set group =>   1
+Atom   4H    basis set group =>   1
+Atom   5H    basis set group =>   1
+Atom   6H    basis set group =>   1
+Atom   7H    basis set group =>   1
+Atom   8H    basis set group =>   1
+Atom   9H    basis set group =>   1
+Atom  10H    basis set group =>   1
+Atom  11C    basis set group =>   2
+Atom  12C    basis set group =>   2
+Atom  13C    basis set group =>   2
+Atom  14C    basis set group =>   2
+Atom  15C    basis set group =>   2
+Atom  16C    basis set group =>   2
+Atom  17C    basis set group =>   2
+Atom  18C    basis set group =>   2
+Atom  19C    basis set group =>   2
+Atom  20C    basis set group =>   2
+Atom  21C    basis set group =>   2
+Atom  22C    basis set group =>   2
+Atom  23C    basis set group =>   2
+Atom  24C    basis set group =>   2
+Atom  25C    basis set group =>   2
+Atom  26C    basis set group =>   2
+Atom  27C    basis set group =>   2
+Atom  28C    basis set group =>   2
+Atom  29N    basis set group =>   3
+Atom  30N    basis set group =>   3
+Atom  31N    basis set group =>   3
+Atom  32N    basis set group =>   3
+Atom  33N    basis set group =>   3
+Atom  34N    basis set group =>   3
+Atom  35O    basis set group =>   4
+Atom  36O    basis set group =>   4
+Atom  37O    basis set group =>   4
+Atom  38H    basis set group =>   1
+Atom  39H    basis set group =>   1
+Atom  40H    basis set group =>   1
+Atom  41H    basis set group =>   1
+Atom  42H    basis set group =>   1
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!     ERROR (ORCA_MAIN): For parallel runs                     !!!
+!!!     ORCA has to be called with full pathname                 !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+[file orca_tools/qcsys.cpp, line 50]: 
+
+[file orca_tools/qcsys.cpp, line 50]: 
+
