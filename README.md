@@ -1,6 +1,6 @@
 # COFGap: DFT-free band-gap prediction of covalent organic frameworks
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23331410.svg)](https://doi.org/10.5281/zenodo.23331410)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23336870.svg)](https://doi.org/10.5281/zenodo.23336870)
 
 Code, derived data, and results for:
 
